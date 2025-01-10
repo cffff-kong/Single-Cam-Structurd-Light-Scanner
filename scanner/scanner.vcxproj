@@ -36,12 +36,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.7.2_msvc2019_64</QtInstall>
+    <QtInstall>6.5.3_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.7.2_msvc2019_64</QtInstall>
+    <QtInstall>6.5.3_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -53,19 +53,23 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(QtMsBuild)\Qt.props" />
+    <Import Project="opencv4.7.0X64Debug.props" />
+    <Import Project="pcl1.11.1Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(QtMsBuild)\Qt.props" />
+    <Import Project="pcl1.11.1Release.props" />
+    <Import Project="opencv4.7.0X64Release.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>C:\Users\kdc01\Desktop\newKong\project\All files\C++\test\1\scanner\scanner\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\kdc01\Desktop\newKong\project\All files\C++\test\1\scanner\scanner\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>C:\Users\kdc01\Desktop\newKong\project\All files\C++\test\1\scanner\scanner\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\kdc01\Desktop\newKong\project\All files\C++\test\1\scanner\scanner\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

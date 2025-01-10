@@ -143,7 +143,7 @@ void DLP4500::phaseShifting_12()
 	cam->setExTrigger();
 	DLPC350_ClearPatLut();
 	cam->triggerMode = true;
-	for (int i = 0; i < 12; i++) {
+	for (int i = 0; i < 4; i++) {
 		if (DLPC350_AddToPatLut(0, 0, 8, 7, 0, 1, 1, 0) < 0)
 		{
 			ShowError("error Updating LUT");
@@ -168,7 +168,7 @@ void DLP4500::phaseShifting_12()
 	//写死吧，不给repeat和once的选项了
 	if (true)
 	{
-		numPatterns = 36;
+		numPatterns = 12;
 	}
 	else
 	{
@@ -208,7 +208,7 @@ void DLP4500::phaseShifting_12()
 	}
 
 	unsigned char splashLut[64];
-	for (int i = 0; i < 12; i++)		//36/3=12
+	for (int i = 0; i < 4; i++)		//36/3=12
 	{
 		splashLut[i] = i;
 	}
@@ -230,9 +230,6 @@ void DLP4500::phaseShifting_12()
 		ShowError("error check LUT data");
 
 	}
-
-
-
 	int i = 0;
 	unsigned int status;
 	bool ready;
@@ -292,7 +289,7 @@ void DLP4500::phaseShifting_12()
 	}
 	
 	// 设置延迟，比如延迟2000毫秒（2秒）
-	QTimer::singleShot(scanner_ui->lineEdit_PatSeqPatPeriod->text().toDouble()*37/1000, this, [this]() {
+	QTimer::singleShot(scanner_ui->lineEdit_PatSeqPatPeriod->text().toDouble()*15/1000, this, [this]() {
 		cam->setInTrigger();
 		cam->triggerMode = false;
 		});
@@ -738,7 +735,7 @@ void DLP4500::startToPro()
 		emit phaseShifting_12();
 		break;
 	case 1:
-		emit calibrate();
+		emit showWhite();
 		break;
 	case 2:
 		emit showPattern();

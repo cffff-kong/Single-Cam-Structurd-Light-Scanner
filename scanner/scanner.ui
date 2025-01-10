@@ -241,11 +241,6 @@
       </item>
       <item>
        <property name="text">
-        <string>横纵条纹</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
         <string>对焦</string>
        </property>
       </item>
@@ -305,13 +300,6 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="labelPic">
-      <property name="text">
-       <string>Pic</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QLabel" name="labelPCL">
       <property name="text">
        <string>PCL</string>
@@ -319,6 +307,19 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="labelPic">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>491</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Pic</string>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

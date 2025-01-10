@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>D:\openSource\opencv\opencv470_x64\include;D:\openSource\opencv\opencv470_x64\include\opencv2;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\openSource\opencv\opencv470_x64\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>opencv_alphamat470.lib;opencv_aruco470.lib;opencv_barcode470.lib;opencv_bgsegm470.lib;opencv_bioinspired470.lib;opencv_calib3d470.lib;opencv_ccalib470.lib;opencv_core470.lib;opencv_datasets470.lib;opencv_dnn470.lib;opencv_dnn_objdetect470.lib;opencv_dnn_superres470.lib;opencv_dpm470.lib;opencv_face470.lib;opencv_features2d470.lib;opencv_flann470.lib;opencv_fuzzy470.lib;opencv_gapi470.lib;opencv_hdf470.lib;opencv_hfs470.lib;opencv_highgui470.lib;opencv_imgcodecs470.lib;opencv_imgproc470.lib;opencv_img_hash470.lib;opencv_intensity_transform470.lib;opencv_line_descriptor470.lib;opencv_mcc470.lib;opencv_ml470.lib;opencv_objdetect470.lib;opencv_optflow470.lib;opencv_phase_unwrapping470.lib;opencv_photo470.lib;opencv_plot470.lib;opencv_quality470.lib;opencv_rapid470.lib;opencv_reg470.lib;opencv_rgbd470.lib;opencv_saliency470.lib;opencv_shape470.lib;opencv_stereo470.lib;opencv_stitching470.lib;opencv_structured_light470.lib;opencv_superres470.lib;opencv_surface_matching470.lib;opencv_text470.lib;opencv_tracking470.lib;opencv_video470.lib;opencv_videoio470.lib;opencv_videostab470.lib;opencv_wechat_qrcode470.lib;opencv_xfeatures2d470.lib;opencv_ximgproc470.lib;opencv_xobjdetect470.lib;opencv_xphoto470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
