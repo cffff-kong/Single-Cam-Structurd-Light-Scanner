@@ -157,14 +157,11 @@ void DLP4500::phaseShifting_12()
 			ShowError("error Updating LUT");
 		}
 	}
-
 	//检查是否勾选sequence
 	if (DLPC350_SetPatternDisplayMode(0) < 0)
 	{
 		ShowError("error set from flash");
 	}
-
-
 	//写死吧，不给repeat和once的选项了
 	if (true)
 	{
@@ -180,25 +177,18 @@ void DLP4500::phaseShifting_12()
 		ShowError("error Sending Pattern Config");
 
 	}
-
-
 	if (DLPC350_SetExposure_FramePeriod(scanner_ui->lineEdit_PatSeqPatExpTime->text().toInt(),
 		scanner_ui->lineEdit_PatSeqPatPeriod->text().toInt()) < 0)
 	{
 		ShowError("error Sending Exposure period");
 
 	}
-
-
-
 	//Configure Trigger Mode - 0(External) or 1(internal)
 	if (DLPC350_SetPatternTriggerMode(1) < 0)
 	{
 		ShowError("error Sending trigger Mode");
 
 	}
-
-
 	//Send Pattern LUT
 	if (DLPC350_SendPatLut() < 0)
 	{
@@ -206,16 +196,11 @@ void DLP4500::phaseShifting_12()
 		ShowError("error Sending Pattern LUT");
 
 	}
-
 	unsigned char splashLut[64];
 	for (int i = 0; i < 4; i++)		//36/3=12
 	{
 		splashLut[i] = i;
 	}
-
-
-
-
 	if (DLPC350_SendImageLut(&splashLut[0], 12) < 0)
 	{
 
