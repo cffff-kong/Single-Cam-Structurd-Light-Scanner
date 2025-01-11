@@ -7,6 +7,7 @@
 #include "ui_scanner.h"
 #include <QThread>
 #include <QMessageBox>
+#include "SSLReconstruction.h"
 class Camera  : public QObject
 {
 	Q_OBJECT
@@ -38,6 +39,10 @@ public:
 	bool		m_bIsSnap=false;				//采集图像标识
 	Ui::scannerClass * scanner_ui;
 	bool triggerMode=false;
+	SSLReconstruction* ssl;
+private:
+	
+
 private:
 	void ShowError(const char* str);
 public:
@@ -48,6 +53,9 @@ public:
 	void setExpTime();
 	//stop picking the picture
 	//void auto_baoguang();
+	/**
+	 * @brief 保存图片的函数
+	 */
 	void save();
 	void setExTrigger();
 	void setInTrigger();

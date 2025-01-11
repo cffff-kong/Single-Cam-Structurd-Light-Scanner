@@ -1,16 +1,15 @@
 #pragma once
 
 #include <QObject>
+#include <QThread>
+#include <QMessageBox>
+#include <GalaxyIncludes.h>
+#include <QString>
 #include "dlpc350_common.h"
 #include "dlpc350_firmware.h"
-#include <QThread>
 #include "ui_scanner.h"
-#include <QMessageBox>
-#include <Camera.h>
-#include <GalaxyIncludes.h>
-#include <QThread>
-#include <QString>
-
+#include "Camera.h"
+#include "SSLReconstruction.h"
 class SleeperThread : public QThread
 {
 public:
@@ -44,8 +43,4 @@ private:
 	void calibrate();
 	void showPattern();
 	void showWhite();
-
-	
-	
-
 };

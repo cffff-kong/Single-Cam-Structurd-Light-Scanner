@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SSLReconstruction.cpp" />
     <QtRcc Include="scanner.qrc" />
     <QtUic Include="scanner.ui" />
     <QtMoc Include="scanner.h" />
@@ -135,6 +136,7 @@
     <QtMoc Include="DLP4500.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SSLReconstruction.h" />
     <QtMoc Include="Camera.h" />
     <ClInclude Include="dlpc350_api.h" />
     <ClInclude Include="dlpc350_BMPParser.h" />

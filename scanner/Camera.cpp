@@ -1,9 +1,9 @@
 #include "Camera.h"
-
 Camera::Camera(Ui::scannerClass* ui, QObject* parent)
 	: QObject(parent),
 	scanner_ui(ui)
 {
+	ssl = new SSLReconstruction(4, 2448, 2048, 100, 99, 90);
 }
 
 
@@ -56,11 +56,6 @@ void Camera::Open_Device()
 
 		//ObjFeatureControlPtr->GetEnumFeature("StreamBufferHandlingMode")->SetValue("NewestOnly");
 		ObjStreamPtr->SetAcqusitionBufferNumber(10);
-
-
-		
-
-	
 		scanner_ui->labelCamStatus->setText("device opened!");
 
 	}
@@ -254,31 +249,36 @@ void Camera::setExpTime()
 //}
 void Camera::save()
 {
-	// 获取当前时间
-	// 获取当前时间
-	auto now = std::chrono::system_clock::now();
-	auto time = std::chrono::system_clock::to_time_t(now);
-	std::tm tm = *std::localtime(&time);
+	cv::Mat mono;
+	cv::cvtColor(captureImgMat,mono, cv::COLOR_BGR2GRAY);
+	ssl->m_imgs.push_back(mono);
+	/*cout << "1" << endl;*/
+	cout << ssl->m_imgs.size() << endl;
+	//// 获取当前时间
+	//// 获取当前时间
+	//auto now = std::chrono::system_clock::now();
+	//auto time = std::chrono::system_clock::to_time_t(now);
+	//std::tm tm = *std::localtime(&time);
 
-	// 获取当前时间的毫秒部分
-	auto duration = now.time_since_epoch();
-	auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() % 1000;
+	//// 获取当前时间的毫秒部分
+	//auto duration = now.time_since_epoch();
+	//auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() % 1000;
 
-	// 格式化时间为字符串（例如：20240918151800762）
-	std::ostringstream filename;
-	filename << std::put_time(&tm, "%Y%m%d%H%M%S") << std::setfill('0') << std::setw(3) << millis << ".BMP";
+	//// 格式化时间为字符串（例如：20240918151800762）
+	//std::ostringstream filename;
+	//filename << std::put_time(&tm, "%Y%m%d%H%M%S") << std::setfill('0') << std::setw(3) << millis << ".BMP";
 
-	// 生成完整的文件名
-	std::string filePath = "./img/" + filename.str();
+	//// 生成完整的文件名
+	//std::string filePath = "./img/" + filename.str();
 
-	// 保存图像
-	if (cv::imwrite(filePath, captureImgMat)) {
-		std::cout << "图像保存成功: " << filePath << std::endl;
-	}
-	else {
-		std::cerr << "图像保存失败: " << filePath << std::endl;
-	}
-	
+	//// 保存图像
+	//if (cv::imwrite(filePath, captureImgMat)) {
+	//	std::cout << "图像保存成功: " << filePath << std::endl;
+	//}
+	//else {
+	//	std::cerr << "图像保存失败: " << filePath << std::endl;
+	//}
+	//
 		// 保存图像
 	//cv::imwrite("./img.bmp", captureImgMat);
 	}
@@ -303,15 +303,12 @@ void CSampleCaptureEventHandler::DoOnImageCaptured(CImageDataPointer& objImageDa
 	pRGB24Buffer = objImageDataPointer->ConvertToRGB24(GX_BIT_0_7, GX_RAW2RGB_NEIGHBOUR, true);
 	memcpy(camUiPtr->captureImgMat.data, pRGB24Buffer, (objImageDataPointer->GetHeight()) *
 		(objImageDataPointer->GetWidth()) * 3);
-
-
 	// 上下翻转图像
 	cv::flip(camUiPtr->captureImgMat, camUiPtr->captureImgMat, 0);  // 0 表示在垂直方向（上下）翻转
 	//显示图片
 	//获取的到mat数据转换为image(mat为CV_8UC1)
 	QImage image(camUiPtr->captureImgMat.data, camUiPtr->captureImgMat.cols, camUiPtr->captureImgMat.rows,
 		camUiPtr->captureImgMat.step, QImage::Format_BGR888);
-	
 	//获取摄像图像
 	/*uchar* pBuffer = NULL;
 	QImage* m_pImage;
@@ -322,8 +319,6 @@ void CSampleCaptureEventHandler::DoOnImageCaptured(CImageDataPointer& objImageDa
 	QPixmap* pixmap = NULL;
 	camUiPtr->scanner_ui->labelPic->setScaledContents(true);
 	camUiPtr->scanner_ui->labelPic->setPixmap(QPixmap::fromImage(*m_pImage));*/
-
-
 	QImage imShow = image.scaled(camUiPtr->scanner_ui->labelPic->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	QPixmap pixmap = QPixmap::fromImage(imShow);
 	camUiPtr->scanner_ui->labelPic->setPixmap(pixmap);	
@@ -332,7 +327,7 @@ void CSampleCaptureEventHandler::DoOnImageCaptured(CImageDataPointer& objImageDa
 	if (camUiPtr->triggerMode)
 	{
 		camUiPtr->save();
-		std::cout << "111" << std::endl;
+		//std::cout << "111" << std::endl;
 	}
 	
 	//buffer不足导致丢帧数 
@@ -340,7 +335,7 @@ void CSampleCaptureEventHandler::DoOnImageCaptured(CImageDataPointer& objImageDa
 
 	int s = objStreamFeatureControlPtr->GetIntFeature(
 		"StreamLostFrameCount")->GetValue();
-	std::cout << s << std::endl;
+	//std::cout << s << std::endl;
 		
 
 

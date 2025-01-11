@@ -21,7 +21,6 @@ DLP4500::DLP4500(Ui::scannerClass* ui, QObject* parent, Camera* camera)
 	: QObject(parent),
 	scanner_ui(ui),
 	cam(camera)
-
 {
 
 }
@@ -207,8 +206,6 @@ void DLP4500::phaseShifting_12()
 		ShowError("error Sending Image LUT");
 
 	}
-
-
 	/************************开始投影**********************************/
 	if (DLPC350_StartPatLutValidate() < 0)
 	{
@@ -218,9 +215,7 @@ void DLP4500::phaseShifting_12()
 	int i = 0;
 	unsigned int status;
 	bool ready;
-
 	QEventLoop loop;
-
 	do
 	{
 		if (DLPC350_CheckPatLutValidate(&ready, &status) < 0)
@@ -277,16 +272,27 @@ void DLP4500::phaseShifting_12()
 	QTimer::singleShot(scanner_ui->lineEdit_PatSeqPatPeriod->text().toDouble()*15/1000, this, [this]() {
 		cam->setInTrigger();
 		cam->triggerMode = false;
+		cout << cam->ssl->m_imgs.size() << endl;
+		if (cam->ssl->m_imgs.size()== 12){
+			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
+			cloud = cam->ssl->Reconstruction();
+			pcl::io::savePCDFileASCII("test.pcd", *cloud);
+			cout << "点云生成完成" << endl;
+		}
+		else
+		{
+			ShowError("Scan error  please scan again");
+		}
+		//释放m_imgs的内存
+		cam->ssl->m_imgs.clear();
+
 		});
-	/*cam->setInTrigger();
-	cam->triggerMode = false;*/
 }
 
 void DLP4500::calibrate()
 {
 	emit DLP4500::stopToPro();
-
-	
 	DLPC350_ClearPatLut();
 	for (int i = 0; i < 24; i++) {
 		if (DLPC350_AddToPatLut(0, 0, 8, 7, 0, 1, 1, 0) < 0)
@@ -453,11 +459,11 @@ void DLP4500::calibrate()
 
 void DLP4500::showWhite() {
 	DLPC350_ClearPatLut();
-	
 	if (DLPC350_AddToPatLut(0, 24, 1, 7, 1, 0, 1, 0) < 0)
 	{
 		ShowError("error Updating LUT");
 	}
+
 	//检查是否勾选sequence
 	if (DLPC350_SetPatternDisplayMode(0) < 0)
 	{
@@ -465,8 +471,17 @@ void DLP4500::showWhite() {
 	}
 
 
-	
-	numPatterns = 1;
+	//写死吧，不给repeat和once的选项了
+	if (true)
+	{
+		numPatterns = 1;
+	}
+	else
+	{
+		numPatterns = 1;
+	}
+
+	//if (DLPC350_SetPatternConfig(numPatterns, ui.radioButton_PatSeqDispRunContinuous->isChecked(), numPatterns, 18) < 0)
 	if (DLPC350_SetPatternConfig(numPatterns, true, numPatterns, numPatterns) < 0)
 	{
 		ShowError("error Sending Pattern Config");
@@ -474,8 +489,8 @@ void DLP4500::showWhite() {
 	}
 
 
-	if (DLPC350_SetExposure_FramePeriod(scanner_ui->lineEdit_PatSeqPatExpTime->text().toInt(),
-		scanner_ui->lineEdit_PatSeqPatPeriod->text().toInt()) < 0)
+	if (DLPC350_SetExposure_FramePeriod(130000,
+		130000) < 0)
 	{
 		ShowError("error Sending Exposure period");
 
@@ -516,9 +531,6 @@ void DLP4500::showWhite() {
 		ShowError("error check LUT data");
 
 	}
-
-
-
 	int i = 0;
 	unsigned int status;
 	bool ready;
@@ -652,9 +664,6 @@ void DLP4500::showPattern() {
 		ShowError("error check LUT data");
 
 	}
-
-
-
 	int i = 0;
 	unsigned int status;
 	bool ready;
