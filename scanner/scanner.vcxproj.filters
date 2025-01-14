@@ -61,12 +61,21 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SSLReconstruction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudPoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="DLP4500.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CloudPoint.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -99,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hidapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SSLReconstruction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,15 @@
 #include "scanner.h"
 #include "dlpc350_usb.h"
-
+#include <vtkRenderWindow.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include <pcl/visualization/pcl_visualizer.h>
 scanner::scanner(QWidget* parent)
 	: QWidget(parent),
 	ui(new Ui::scannerClass)
 {
-	ui->setupUi(this);
 
+	ui->setupUi(this);
 	//Camera
 	camera = new Camera(ui, this);
 	connect(ui->btnOpenCam, &QPushButton::clicked, camera, &Camera::Open_Device);
@@ -17,10 +20,13 @@ scanner::scanner(QWidget* parent)
 	//connect(ui->comboBox, &QComboBox::currentTextChanged, camera, &Camera::auto_baoguang);
 	connect(ui->btnSave, &QPushButton::clicked, camera, &Camera::save);
 	connect(ui->lineEdit_CamExpTime, &QLineEdit::returnPressed, camera, &Camera::setExpTime);
-	
+
+	//CloudPoint
+	cloud = new CloudPoint(ui, this);
+	cloud->initialVtkWidget();
 
 	//DLP
-	dlp = new DLP4500(ui, this, camera);
+	dlp = new DLP4500(ui, this, camera, cloud);
 	DLPC350_USB_Init();
 	ui->btnDLPConnect->setEnabled(DLPC350_USB_IsConnected());
 	m_usbPollTimer = new QTimer(this);
@@ -29,7 +35,7 @@ scanner::scanner(QWidget* parent)
 	//connect(m_usbPollTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
 	m_usbPollTimer->start();
 
-	connect(ui->btnDLPConnect, &QPushButton::clicked, dlp, & DLP4500::showDLP4500Connect);
+	connect(ui->btnDLPConnect, &QPushButton::clicked, dlp, &DLP4500::showDLP4500Connect);
 	connect(ui->checkBoxSLMode, &QCheckBox::clicked, dlp, &DLP4500::setMode);
 	ui->checkBoxSLMode->setChecked(true);
 	ui->checkBoxSLMode->setEnabled(false);
@@ -39,13 +45,17 @@ scanner::scanner(QWidget* parent)
 
 	ui->lineEdit_PatSeqPatPeriod->setReadOnly(true);
 	ui->lineEdit_PatSeqPatExpTime->setReadOnly(true);
+
 	
 }
 
 scanner::~scanner()
-{}
+{
+}
 
-void scanner::closeEvent(QCloseEvent* event) {
+
+void scanner::closeEvent(QCloseEvent* event)
+{
 	{
 		try
 		{
@@ -116,3 +126,5 @@ void scanner::ShowError(const char* str)
 	QMessageBox msgBox(QMessageBox::Warning, title, text, QMessageBox::NoButton, this);
 	msgBox.exec();
 }
+
+

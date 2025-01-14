@@ -17,12 +17,12 @@
 #include <QMessageBox>
 
 #define MAX_NUM_RETRIES 5
-DLP4500::DLP4500(Ui::scannerClass* ui, QObject* parent, Camera* camera)
+DLP4500::DLP4500(Ui::scannerClass* ui, QObject* parent, Camera* camera,CloudPoint* cloud)
 	: QObject(parent),
 	scanner_ui(ui),
-	cam(camera)
+	cam(camera),
+	dlp_cloud(cloud)
 {
-
 }
 
 DLP4500::~DLP4500()
@@ -138,6 +138,8 @@ void DLP4500::SetDLPC350InPatternMode()
 
 void DLP4500::phaseShifting_12()
 {
+	dlp_cloud->cloud_cloudpoint->clear();
+
 	emit DLP4500::stopToPro();
 	cam->setExTrigger();
 	DLPC350_ClearPatLut();
@@ -279,6 +281,10 @@ void DLP4500::phaseShifting_12()
 			cloud = cam->ssl->Reconstruction();
 			pcl::io::savePCDFileASCII("test.pcd", *cloud);
 			cout << "点云生成完成" << endl;
+			//显示点云
+			dlp_cloud->cloud_cloudpoint=cloud;
+			dlp_cloud->ShowCloudPoint();
+
 		}
 		else
 		{
@@ -286,8 +292,8 @@ void DLP4500::phaseShifting_12()
 		}
 		//释放m_imgs的内存
 		cam->ssl->m_imgs.clear();
-
-		});
+		;
+	});
 }
 
 void DLP4500::calibrate()

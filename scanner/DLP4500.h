@@ -10,6 +10,7 @@
 #include "ui_scanner.h"
 #include "Camera.h"
 #include "SSLReconstruction.h"
+#include "CloudPoint.h"
 class SleeperThread : public QThread
 {
 public:
@@ -19,22 +20,18 @@ public:
 	}
 };
 
-class DLP4500  : public QObject
+class DLP4500 : public QObject
 {
 	Q_OBJECT
 
 public:
-	DLP4500(Ui::scannerClass* ui,QObject *parent,Camera *camera);
+	DLP4500(Ui::scannerClass* ui, QObject* parent, Camera* camera,CloudPoint* cloud);
 	~DLP4500();
-
-	Ui::scannerClass* scanner_ui;
-	Camera* cam;
 	void timerTimeout(void);
 	void showDLP4500Connect();
 	void setMode();
 	void SetDLPC350InPatternMode();
 	void stopToPro();
-	
 	void startToPro();
 private:
 	void ShowError(const char* str);
@@ -43,4 +40,12 @@ private:
 	void calibrate();
 	void showPattern();
 	void showWhite();
+
+public:
+	Ui::scannerClass* scanner_ui;
+	Camera* cam;
+	CloudPoint* dlp_cloud;
+private:
+	CloudPoint* cloudPoint;
+	
 };

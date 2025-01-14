@@ -36,13 +36,13 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.5.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;opengl;gui;widgets;openglextensions</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.5.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;opengl;gui;widgets;openglextensions</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -55,17 +55,19 @@
     <Import Project="$(QtMsBuild)\Qt.props" />
     <Import Project="opencv4.7.0X64Debug.props" />
     <Import Project="pcl1.11.1Debug.props" />
+    <Import Project="VTK8.2.0_debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(QtMsBuild)\Qt.props" />
-    <Import Project="pcl1.11.1Release.props" />
     <Import Project="opencv4.7.0X64Release.props" />
+    <Import Project="PCL1.14_release.props" />
+    <Import Project="VTK8.2.0_release.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\VTk 8\VTK-release\include\vtk-8.2;$(IncludePath);D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\inc</IncludePath>
+    <LibraryPath>D:\VTk 8\VTK-release\lib;$(LibraryPath);D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\lib\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <IncludePath>D:\Daheng Imaging\GalaxySDK\GalaxySDK\Samples\C++ SDK\inc;$(IncludePath)</IncludePath>
@@ -74,6 +76,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <AdditionalDependencies>hidapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -83,6 +86,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <AdditionalDependencies>hidapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -118,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CloudPoint.cpp" />
     <ClCompile Include="SSLReconstruction.cpp" />
     <QtRcc Include="scanner.qrc" />
     <QtUic Include="scanner.ui" />
@@ -136,6 +141,7 @@
     <QtMoc Include="DLP4500.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="CloudPoint.h" />
     <ClInclude Include="SSLReconstruction.h" />
     <QtMoc Include="Camera.h" />
     <ClInclude Include="dlpc350_api.h" />
