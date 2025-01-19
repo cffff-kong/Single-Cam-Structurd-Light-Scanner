@@ -275,11 +275,23 @@ void DLP4500::phaseShifting_12()
 		cam->setInTrigger();
 		cam->triggerMode = false;
 		cout << cam->ssl->m_imgs.size() << endl;
-		if (cam->ssl->m_imgs.size()== 12){
+		if (cam->ssl->m_imgs.size() == 12)
+		{
 			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
 			cloud = cam->ssl->Reconstruction();
-			pcl::io::savePCDFileASCII("test.pcd", *cloud);
+			//生成时间
+			// 获取当前时间
+			auto now = std::chrono::system_clock::now();
+			std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+			// 将当前时间转换为 tm 结构
+			std::tm tm_now = *std::localtime(&now_time);
+
+			// 使用 stringstream 格式化时间字符串
+			std::ostringstream oss;
+			oss << std::put_time(&tm_now, "%Y%m%d_%H%M%S"); // 格式：20250119_143015
+			pcl::io::savePCDFileASCII(oss.str() +".pcd", *cloud);
 			cout << "点云生成完成" << endl;
 			//显示点云
 			dlp_cloud->cloud_cloudpoint=cloud;

@@ -5,6 +5,9 @@
 #include <QMessageBox>
 #include <GalaxyIncludes.h>
 #include <QString>
+#include <iomanip>
+#include <chrono>
+#include <ctime>
 #include "dlpc350_common.h"
 #include "dlpc350_firmware.h"
 #include "ui_scanner.h"
